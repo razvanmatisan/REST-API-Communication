@@ -1,0 +1,95 @@
+Nume: Razvan-Andrei Matisan
+Grupa: 324CA
+
+                            Tema 3 - Protocoale de comunicatie
+
+
+    1. Crearea request-urilor:
+
+    -> pentru crearea request-urilor, m-am folosit de laboratorul 10.
+    -> singurul request pe care ar trebui sa-l implementez si nu era in
+    acel laborator a fost cel de DELETE => implementarea sa este identica
+    cu cea a GET-ului, cu mentiunea ca diferea doar tipul de request ce
+    trebuia trimis catre server.
+
+
+    2. Parsarea obiectelor JSON:
+
+    -> m-am folosit de biblioteca parson (ce era recomandata in enuntul temei).
+    -> acesta a fost folosita pentru a trimite catre server obiecte de tip JSON
+    -> de asemenea, pentru a interpreta raspunsurile primite de la server,
+    m-am folosit de aceasta biblioteca pentru a prelua campuri specifice din
+    obiect (ex: pentru comanda GET_BOOK, aveam nevoie sa accesez fiecare camp
+    pentru a afisa un mesaj corespunzator).
+
+
+    3. Descrierea comenzilor:
+
+    -> comenzile sunt citite de la tastatura pana cand comanda "exit" este
+    introdusa. In cazul in care este introdusa o comanda care nu se regaseste
+    in enuntul temei, atunci se va afisa un mesaj de eroare.
+
+    -> EXIT
+        * comanda ce va incheia executia programului (nu se vor mai putea
+        introduce comenzi de la tastatura).
+
+    -> REGISTER:
+        * dupa ce comanda este introdusa, trebuie sa introduc de la tastatura
+        username-ul si parola. Cu aceste date, imi creez un obiect de tip JSON
+        si trimit catre server un request de tip POST.
+        * primesc un raspuns de la server in format JSON si, in functie de
+        executia cu succes a inregistrarii contului in baza de date, voi
+        afisa un mesaj (de eroare sau de reusita).
+
+    -> LOGIN:
+        * singura diferenta intre login si register este ca la login
+        voi salva intr-o variabila cookie-ul primit de la server.
+    
+    -> ENTER_LIBRARY
+        * m-am folosit de cookie-ul primit
+        dupa logare ca sa construiesc requestul de tip GET.
+        * trimit mesajul catre server
+        * primesc mesajul, salvand token-ul intr-o variabila separata.
+        * afisez mesajul de eroare primit de la server in cazul in care
+        request-ul nu a fost executat cu succes.
+
+    -> GET_BOOKS
+        * trimit catre server un request de tip GET
+        * folosesc si token-ul pentru a dovedi accesul la library.
+        * afisez mesajul de eroare primit de la server in cazul in care
+        request-ul nu a fost executat cu succes.
+        * in caz contrar, afisez toate cartile, in formatul din cerinta.
+
+    -> GET_BOOK
+        * asemanator cu GET_BOOKS, doar ca trebuie sa introduc id-ul
+        cartii pe care vreau sa o afisez
+        * ma folosesc tot de un GET request.
+
+    -> ADD_BOOK
+        * imi creez un obiect de tip JSON in conformitate cu datele din enuntul
+        temei
+        * creez un mesaj de request de tip POST, pe care il trimit catre server
+        * interpretez raspunsul serverului (afisez mesajul de eroare sau un
+        mesaj de confirmare ca acea carte a fost adaugata)
+        * in cazul in care nu introduc nimic intr-unul dintre campurile
+        pe care trebuie sa le completez, se va afisa un mesaj de eroare, iar
+        cererea nu va fi trimisa
+        * de asemenea, daca numarul de pagini este un numar <= 0, atunci mi
+        se va afisa un mesaj de eroare.
+
+    -> DELETE_BOOK
+        * identic cu GET_BOOK, doar ca acum voi trimite un request
+        de tip DELETE catre server.
+    
+    -> LOGOUT
+        * trimit un GET request catre server, in care voi adauga si cookie-ul
+        (pentru a demonstra ca sunt autentificat).
+        * variabilele care retin tokenul JWT si cookie-ul se reseteaza daca
+        logout-ul se executa cu succes.
+
+
+    4. Trimiterea/primirea mesajelor catre server
+        * mesajele au fost trimise catre server si primite de la server
+        prin intermediul functiilor de send_to_server si receive_to_server
+        * aceste functii se afla in fisierul "helepers.c", preluat din lab 10.
+    
